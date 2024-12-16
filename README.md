@@ -4,7 +4,7 @@ This is a trivial Rust program, and test, that call `std::process::abort()`.
 
 ## What's the point?
 
-To show how programs, including test drivers, display the result.
+To show how programs that run other programs, including test drivers, display results when a process is abruptly terminated in this way.
 
 ## Examples - GNU/Linux
 
