@@ -6,6 +6,50 @@ This is a trivial Rust program, and test, that call `std::process::abort()`.
 
 To show how programs, including test drivers, display the result.
 
+## Examples - GNU/Linux
+
+The current effect of `std::process::abort()` on GNU/Linux systems (and probably on Unix-like systems in general) is to raise `SIGABRT`:
+
+```text
+$ cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/failfast`
+Aborted (core dumped)
+
+$ echo "$?"  # 134 - 128 = 6 (SIGABRT)
+134
+```
+
+```text
+$ cargo test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (target/debug/deps/failfast-5e2237fc1bd80edb)
+
+running 1 test
+error: test failed, to rerun pass `--lib`
+
+Caused by:
+  process didn't exit successfully: `/home/ek/repos/failfast/target/debug/deps/failfast-5e2237fc1bd80edb` (signal: 6, SIGABRT: process abort signal)
+```
+
+```text
+$ cargo nextest run
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+────────────
+ Nextest run ID d8fa92fd-6664-46eb-8ce7-96b1f442ad42 with nextest profile: default
+    Starting 1 test across 2 binaries
+     SIGABRT [   0.107s] failfast test::failfast
+──── STDOUT:             failfast test::failfast
+
+running 1 test
+
+  Cancelling due to test failure
+────────────
+     Summary [   0.108s] 1 test run: 0 passed, 1 failed, 0 skipped
+     SIGABRT [   0.107s] failfast test::failfast
+error: test run failed
+```
+
 ## Examples - Windows
 
 On Windows, as of this writing, `std::process::abort()` calls `std::intrinsics::abort()`, which currently appears equivalent to `__failfast(1282)` in a C or C++ program compiled with MSVC.
