@@ -1,4 +1,4 @@
-# failfast - A trivial `std::process::abort()` demonstration
+# failfast - `std::process::abort()` demonstration
 
 This is a trivial Rust program, and test, that call `std::process::abort()`.
 
@@ -6,7 +6,9 @@ This is a trivial Rust program, and test, that call `std::process::abort()`.
 
 To show how programs that run other programs, including test drivers, display results when a process is abruptly terminated in this way.
 
-## Examples - GNU/Linux
+## Examples
+
+### GNU/Linux
 
 The current effect of `std::process::abort()` on GNU/Linux systems (and probably on Unix-like systems in general) is to raise `SIGABRT`:
 
@@ -50,7 +52,7 @@ running 1 test
 error: test run failed
 ```
 
-## Examples - Windows
+### Windows
 
 On Windows, as of this writing, `std::process::abort()` calls `std::intrinsics::abort()`, which currently appears equivalent to `__failfast(1282)` in a C or C++ program compiled with MSVC.
 
